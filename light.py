@@ -12,7 +12,6 @@ from homeassistant.components.light import (
     ATTR_BRIGHTNESS,
     ATTR_RGB_COLOR,
     COLOR_MODE_RGB,
-    SUPPORT_BRIGHTNESS,
     SUPPORT_COLOR,
     PLATFORM_SCHEMA,
     LightEntity
@@ -50,10 +49,9 @@ def setup_platform(
 class HAEasyRemoteColorwheel(LightEntity):
     """Representation of an Easy Remote colorwheel."""
 
-    _attr_assumed_state = True
     _attr_color_mode = COLOR_MODE_RGB
-    _attr_supported_color_modes = (COLOR_MODE_RGB)
-    _attr_supported_features = SUPPORT_COLOR | SUPPORT_BRIGHTNESS
+    _attr_supported_color_modes = [COLOR_MODE_RGB]
+    _attr_supported_features = SUPPORT_COLOR
 
     def __init__(self, light) -> None:
         """Initialize an Easy Remote colorwheel."""
@@ -76,7 +74,7 @@ class HAEasyRemoteColorwheel(LightEntity):
     @property
     def is_on(self) -> bool | None:
         """Return true if light is on."""
-        if self._rgb == None:
+        if self._rgb is None:
             return None
         return self._rgb != (0, 0, 0)
 
@@ -96,7 +94,7 @@ class HAEasyRemoteColorwheel(LightEntity):
         Use the given RGB values if present, otherwise use white.
         """
         brightness = kwargs.get(ATTR_BRIGHTNESS, 255)
-        r, g, b = kwargs.get(ATTR_RGB_COLOR, [255, 255, 255])
+        r, g, b = kwargs.get(ATTR_RGB_COLOR, (255, 255, 255))
 
         self._brightness = brightness
         self._rgb = (r, g, b)
