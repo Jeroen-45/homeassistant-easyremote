@@ -50,7 +50,7 @@ class HAEasyRemoteColorwheel(LightEntity):
     """Representation of an Easy Remote colorwheel."""
 
     _attr_color_mode = COLOR_MODE_RGB
-    _attr_supported_color_modes = [COLOR_MODE_RGB]
+    _attr_supported_color_modes = {COLOR_MODE_RGB}
     _attr_supported_features = SUPPORT_COLOR
 
     def __init__(self, light) -> None:
