@@ -58,8 +58,9 @@ class HAEasyRemoteColorwheel(LightEntity):
         self._light = light
         self._id = "easyremote.%i.%i" % (light.page, light.id)
         self._name = light.name
-        self._brightness = None
-        self._rgb = None
+        self._state = None
+        self._brightness = 255
+        self._rgb = (255, 255, 255)
 
     @property
     def unique_id(self):
@@ -74,9 +75,7 @@ class HAEasyRemoteColorwheel(LightEntity):
     @property
     def is_on(self) -> bool | None:
         """Return true if light is on."""
-        if self._rgb is None:
-            return None
-        return self._rgb != (0, 0, 0)
+        return self._state
 
     @property
     def brightness(self) -> int | None:
@@ -93,9 +92,10 @@ class HAEasyRemoteColorwheel(LightEntity):
         Use the given brightness if present, otherwise use full brightness.
         Use the given RGB values if present, otherwise use white.
         """
-        brightness = kwargs.get(ATTR_BRIGHTNESS, 255)
-        r, g, b = kwargs.get(ATTR_RGB_COLOR, (255, 255, 255))
+        brightness = kwargs.get(ATTR_BRIGHTNESS, self._brightness)
+        r, g, b = kwargs.get(ATTR_RGB_COLOR, self._rgb)
 
+        self._state = True
         self._brightness = brightness
         self._rgb = (r, g, b)
 
@@ -105,6 +105,5 @@ class HAEasyRemoteColorwheel(LightEntity):
 
     def turn_off(self, **kwargs: Any) -> None:
         """Instruct the light to turn off."""
+        self._state = False
         self._light.set_rgb(0, 0, 0)
-        self._brightness = 0
-        self._rgb = (0, 0, 0)
