@@ -1,0 +1,1 @@
+"""Lightingsoft Easy Remote integration"""
