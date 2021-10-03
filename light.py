@@ -50,6 +50,7 @@ def setup_platform(
 class HAEasyRemoteColorwheel(LightEntity):
     """Representation of an Easy Remote colorwheel."""
 
+    _attr_assumed_state = True
     _attr_color_mode = COLOR_MODE_RGB
     _attr_supported_color_modes = (COLOR_MODE_RGB)
     _attr_supported_features = SUPPORT_COLOR | SUPPORT_BRIGHTNESS
@@ -57,9 +58,15 @@ class HAEasyRemoteColorwheel(LightEntity):
     def __init__(self, light) -> None:
         """Initialize an Easy Remote colorwheel."""
         self._light = light
+        self._id = "easyremote.%i.%i" % (light.page, light.id)
         self._name = light.name
         self._brightness = None
         self._rgb = None
+
+    @property
+    def unique_id(self):
+        """Return the ID of this Hue light."""
+        return self._id
 
     @property
     def name(self) -> str:
