@@ -89,8 +89,8 @@ class HAEasyRemoteColorwheel(LightEntity):
 
     def turn_on(self, **kwargs: Any) -> None:
         """Instruct the light to turn on.
-        Use the given brightness if present, otherwise use full brightness.
-        Use the given RGB values if present, otherwise use white.
+        Use the given brightness if present, otherwise use last known value.
+        Use the given RGB values if present, otherwise use last known color.
         """
         brightness = kwargs.get(ATTR_BRIGHTNESS, self._brightness)
         r, g, b = kwargs.get(ATTR_RGB_COLOR, self._rgb)
